@@ -3,7 +3,6 @@
 //  BJSCC
 //
 //  Created by Teodor Marinov on 1.07.19.
-//  Copyright © 2019 Boyan Jakimov. All rights reserved.
 //
 
 import Foundation
@@ -118,7 +117,7 @@ class EnvironmentChangerController<T>: UIViewController where T: RawRepresentabl
         button.addGestureRecognizer(panner)
     }
 
-    func setButtonImage(button: UIButton, image: String) {
+    private func setButtonImage(button: UIButton, image: String) {
         guard let image = UIImage(named: image) else { return }
 
         button.imageEdgeInsets = UIEdgeInsets(top: 30, left: 30, bottom: 30, right: 30)

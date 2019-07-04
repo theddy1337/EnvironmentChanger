@@ -1,7 +1,5 @@
 //
 //  EnvironmentChanger.swift
-//  BJSCC
-//
 //  Created by Teodor Marinov on 1.07.19.
 //
 

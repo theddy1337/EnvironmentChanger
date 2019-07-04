@@ -25,6 +25,7 @@ EnvironmentChangerController(envs: <T>, buttonImage: <UIImage?>, buttonTitle: <S
 ```
 
 2. Parameters:
+
 • ```envs: <T>``` object that holds the environments you wish to change.  
 -- Note: ```<T>``` object has to be of type String, CaseIterable to work.     
 • ```buttonImage: <UIImage?>``` - If not passed, the parameter sets itself to nil and will not be read.  

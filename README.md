@@ -4,7 +4,7 @@ Environment Selector v.0.0.1
 
 Pretty basic tool to help with the testers to swap environments really quickly without having to download a specific build.  
 Displays a button in the top right corner that when selected,  
-drops down the menu with the given possible backend environments that the user can select.  
+displays an alert with the given possible backend environments that the user can select.  
 
 # Usage 
 
@@ -24,11 +24,11 @@ you selected your new environment should be added in the completion handler of t
 EnvironmentChangerController(envs: <T>,  buttonImageString: <String?>, buttonImage: <UIImage?>, buttonTitle: <String?>, <completionHandler (<T>) -> (Void))  
 ```
 2. Parameters:  
-• envs: <T> object that holds the environments you wish to change.  
-• buttonImageString: <String?> - If not passed, the parameter sets itself to nil and will not be read.  
-• buttonImage: <UIImage?> - If not passed, the parameter sets itself to nil and will not be read.  
-• buttonTitle: <String?>  - If not passed, the parameter sets itself to 'EN' and will be displayed as the button title.  
-• completionHandler: <T> -> (Void) - Returns the T object associated when selected, also any logic you would like to execute after the new environment is selected you should add it here.  
+• ```envs: <T>``` object that holds the environments you wish to change.  
+• ```buttonImageString: <String?>``` - If not passed, the parameter sets itself to nil and will not be read.  
+• ```buttonImage: <UIImage?>``` - If not passed, the parameter sets itself to nil and will not be read.  
+• ```buttonTitle: <String?>```  - If not passed, the parameter sets itself to 'EN' and will be displayed as the button title.  
+• ```completionHandler: <T> -> (Void)``` - Returns the T object associated when selected, also any logic you would like to execute after the new environment is selected you should add it here.  
 
 4. Functions:  
 ```swift

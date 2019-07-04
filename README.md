@@ -23,14 +23,15 @@ you selected your new environment should be added in the completion handler of t
 ```swift
 EnvironmentChangerController(envs: <T>, buttonImage: <UIImage?>, buttonTitle: <String?>, <completionHandler (<T>) -> (Void))  
 ```
-2. Parameters:  
+
+2. Parameters:
 • ```envs: <T>``` object that holds the environments you wish to change.  
-  #####  - Note:  ```<T>``` object has to be of type String, CaseIterable to work.     
+-- Note: ```<T>``` object has to be of type String, CaseIterable to work.     
 • ```buttonImage: <UIImage?>``` - If not passed, the parameter sets itself to nil and will not be read.  
 • ```buttonTitle: <String?>```  - If not passed, the parameter sets itself to 'EN' and will be displayed as the button title.  
 • ```completionHandler: <T> -> (Void)``` - Returns the T object associated when selected, also any logic you would like to execute after the new environment is selected you should add it here.  
 
-4. Functions:  
+3. Functions:  
 ```swift
 • getSavedEnvironment() -> String
 ```
@@ -38,22 +39,22 @@ EnvironmentChangerController(envs: <T>, buttonImage: <UIImage?>, buttonTitle: <S
 - Access the saved environment via this function.  
 - Note: It saves the chosen environment in UserDefaults.  
 
-5. Example with enums:  
+4. Example with enums:  
 
 ```swift 
 enum Envs: String, CaseIterable {
-    case Production = "my.production.env"
-    case Development = "my.development.env"
+case Production = "my.production.env"
+case Development = "my.development.env"
 }
 
 let envChanger = EnvironmentChangerController(envs: Envs.self) { selectedEnvironment in  
 
-    ACTIVE_ENVIRONMENT = envChanger.getSavedEnvironment()  
+ACTIVE_ENVIRONMENT = envChanger.getSavedEnvironment()  
 /// Logout user, re-instantiate server connection etc...  
 }
 ```
 
-4. Notes when implementing:  
+5. Notes when implementing:  
 • If no button image/title is passed in the constructor, by default it will set the button title to 'EN'.  
 • If a button title AND image is specified, the image is implemented and the title set will not be set. 
 

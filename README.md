@@ -12,7 +12,7 @@ Select the button and an alert with the given environments will show up,
 select the environment that you would like to use and simply restart the app.  
 Also, you can drag the button across the screen. Position it as you wish.  
 
-# Developer implementation
+# Developer Implementation
  
 Create an instance of the class(preferebly in the AppDelegate didFinishLaunchingWithOptions method) and pass it with the  
 custom object that holds your list of environments, any logic that you would want to be executed after  
@@ -20,40 +20,43 @@ you selected your new environment should be added in the completion handler of t
 
 1. Declaration :
 
+```swift
 EnvironmentChangerController(envs: <T>,  buttonImageString: <String?>, buttonImage: <UIImage?>, buttonTitle: <String?>, <completionHandler (<T>) -> (Void))  
-
-2. Parameters:
+```
+2. Parameters:  
 • envs: <T> object that holds the environments you wish to change.  
 • buttonImageString: <String?> - If not passed, the parameter sets itself to nil and will not be read.  
 • buttonImage: <UIImage?> - If not passed, the parameter sets itself to nil and will not be read.  
 • buttonTitle: <String?>  - If not passed, the parameter sets itself to 'EN' and will be displayed as the button title.  
 • completionHandler: <T> -> (Void) - Returns the T object associated when selected, also any logic you would like to execute after the new environment is selected you should add it here.  
 
-4. Functions: 
+4. Functions:  
+```swift
+• getSavedEnvironment() -> String
+```
 
-• getSavedEnvironment() -> String  
 - Access the saved environment via this function.  
 - Note: It saves the chosen environment in UserDefaults.  
 
 5. Example with enums:  
 
+```swift 
 let envChanger = EnvironmentChangerController(envs: Envs.self) { selectedEnvironment in  
+
 ACTIVE_ENVIRONMENT = envChanger.getSavedEnvironment()  
 /// Logout user, re-instantiate server connection etc...  
 }
+```
 
 4. Notes when implementing:  
 • If no button image/title is passed in the constructor, by default it will set the button title to 'EN'.  
 • If a button title AND image is specified, the image overrides the title set to the button thus will display the image.  
 
-# Release Notes: 
-
-Version 0.0.1:
 
 # TODO:
 
 • Implement configurable button.  
 • Implement configurable window size.  
-• Implement starting button position.  
+• Implement configurable starting button position.  
 • Implement singleton design pattern.  
 • Implement sockets(?)  

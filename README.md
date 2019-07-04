@@ -1,4 +1,4 @@
-Environment Selector v.0.0.1
+Environment Selector v.0.0.2
 ================
 # About
 
@@ -21,11 +21,11 @@ you selected your new environment should be added in the completion handler of t
 1. Declaration :
 
 ```swift
-EnvironmentChangerController(envs: <T>,  buttonImageString: <String?>, buttonImage: <UIImage?>, buttonTitle: <String?>, <completionHandler (<T>) -> (Void))  
+EnvironmentChangerController(envs: <T>, buttonImage: <UIImage?>, buttonTitle: <String?>, <completionHandler (<T>) -> (Void))  
 ```
 2. Parameters:  
 • ```envs: <T>``` object that holds the environments you wish to change.  
-• ```buttonImageString: <String?>``` - If not passed, the parameter sets itself to nil and will not be read.  
+  #####  - Note:  ```<T>``` object has to be of type String, CaseIterable to work.     
 • ```buttonImage: <UIImage?>``` - If not passed, the parameter sets itself to nil and will not be read.  
 • ```buttonTitle: <String?>```  - If not passed, the parameter sets itself to 'EN' and will be displayed as the button title.  
 • ```completionHandler: <T> -> (Void)``` - Returns the T object associated when selected, also any logic you would like to execute after the new environment is selected you should add it here.  
@@ -41,16 +41,21 @@ EnvironmentChangerController(envs: <T>,  buttonImageString: <String?>, buttonIma
 5. Example with enums:  
 
 ```swift 
+enum Envs: String, CaseIterable {
+    case Production = "my.production.env"
+    case Development = "my.development.env"
+}
+
 let envChanger = EnvironmentChangerController(envs: Envs.self) { selectedEnvironment in  
 
-ACTIVE_ENVIRONMENT = envChanger.getSavedEnvironment()  
+    ACTIVE_ENVIRONMENT = envChanger.getSavedEnvironment()  
 /// Logout user, re-instantiate server connection etc...  
 }
 ```
 
 4. Notes when implementing:  
 • If no button image/title is passed in the constructor, by default it will set the button title to 'EN'.  
-• If a button title AND image is specified, the image overrides the title set to the button thus will display the image.  
+• If a button title AND image is specified, the image is implemented and the title set will not be set. 
 
 
 # TODO:

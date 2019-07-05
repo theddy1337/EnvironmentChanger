@@ -1,4 +1,4 @@
-Environment Selector v.0.0.2
+Environment Selector v.0.0.3
 ================
 # About
 
@@ -24,34 +24,40 @@ you selected your new environment should be added in the completion handler of t
 EnvironmentChangerController(envs: <T>, buttonImage: <UIImage?>, buttonTitle: <String?>, <completionHandler (<T>) -> (Void))  
 ```
 
-2. Parameters:
+2. Parameters:  
 
 • ```envs: <T>``` object that holds the environments you wish to change.  
--- Note: ```<T>``` object has to be of type String, CaseIterable to work.     
+#####  - Note:  ```<T>``` object has to be of type String, CaseIterable to work.     
 • ```buttonImage: <UIImage?>``` - If not passed, the parameter sets itself to nil and will not be read.  
 • ```buttonTitle: <String?>```  - If not passed, the parameter sets itself to 'EN' and will be displayed as the button title.  
 • ```completionHandler: <T> -> (Void)``` - Returns the T object associated when selected, also any logic you would like to execute after the new environment is selected you should add it here.  
 
 3. Functions:  
-```swift
-• getSavedEnvironment() -> String
-```
 
+```swift
+getSavedEnvironment() -> String  
+```
 - Access the saved environment via this function.  
 - Note: It saves the chosen environment in UserDefaults.  
+
+```swift
+resizeFrame(newWidth: CGFloat, newHeight: CGFloat)  
+```  
+- Resizes the button with the specified height/width.
+- Note: If a image is set, the imageEdgeInsets are calculated and set as '(height + width) / 2'.
 
 4. Example with enums:  
 
 ```swift 
 enum Envs: String, CaseIterable {
-case Production = "my.production.env"
-case Development = "my.development.env"
+    case Production = "my.production.env"
+    case Development = "my.development.env"
 }
 
 let envChanger = EnvironmentChangerController(envs: Envs.self) { selectedEnvironment in  
 
-ACTIVE_ENVIRONMENT = envChanger.getSavedEnvironment()  
-/// Logout user, re-instantiate server connection etc...  
+    ACTIVE_ENVIRONMENT = envChanger.getSavedEnvironment()  
+    /// Logout user, re-instantiate server connection etc...  
 }
 ```
 
@@ -63,7 +69,6 @@ ACTIVE_ENVIRONMENT = envChanger.getSavedEnvironment()
 # TODO:
 
 • Implement configurable button.  
-• Implement configurable window size.  
 • Implement configurable starting button position.  
 • Implement singleton design pattern.  
 • Implement sockets(?)  

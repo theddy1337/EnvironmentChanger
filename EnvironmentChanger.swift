@@ -70,6 +70,17 @@ class EnvironmentChangerController<T>: UIViewController where T: RawRepresentabl
         return savedEnvironment
     }
 
+    func resizeFrame(newWidth: CGFloat, newHeight: CGFloat) {
+        let imageEdgeInsets = (newWidth + newHeight) / 2
+
+        DispatchQueue.main.async { [weak self] in
+
+            self?.button.frame.width = newWidth
+            self?.button.frame.height = newHeight
+            self?.button.imageEdgeInsets = UIEdgeInsets(top: imageEdgeInsets, left: imageEdgeInsets, bottom: imageEdgeInsets, right: imageEdgeInsets)
+        }
+    }
+
     /// Sets the window level to the highest magnitude so that it will display always on top.
     private func setupWindow() {
         window.windowLevel = UIWindow.Level(rawValue: CGFloat.greatestFiniteMagnitude)
@@ -86,8 +97,9 @@ class EnvironmentChangerController<T>: UIViewController where T: RawRepresentabl
         DispatchQueue.main.async { [weak self] in
 
             if let buttonImage = self?.buttonImage {
-                self?.button.setImage(buttonImage, for: .normal)
+                button.setImage(buttonImage, for: .normal)
                 button.imageEdgeInsets = UIEdgeInsets(top: 30, left: 30, bottom: 30, right: 30)
+                button.contentMode = .center
                 button.imageView?.contentMode = .scaleAspectFit
             } else if let buttonTitle = self?.buttonTitle {
                 button.setTitle(buttonTitle, for: .normal)

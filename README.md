@@ -66,9 +66,29 @@ let envChanger = EnvironmentChangerController(envs: Envs.self) { selectedEnviron
 • If a button title AND image is specified, the image is implemented and the title set will not be set. 
 
 
-# TODO:
 
-• Implement configurable button.  
+# Release notes
+
+Version: 0.0.4:
+• Added an default caching of the first environment that is passed in the initialization.
+• Restructured and removed some unnecessary code. 
+
+Version: 0.0.3:
+• Added configurable window/button size.
+
+Version: 0.0.2:
+• Removed one useless parameter from the constructor.
+• Updated documentation. 
+
+# Known Issues  
+
+• When a new environment is selected from Xcode Simulator, sometimes it does not load the new envrionment when restarting the app from Xcode.
+
+# TODO
+
+• Implement configurable button style.  
 • Implement configurable starting button position.  
-• Implement singleton design pattern.  
 • Implement sockets(?)  
+
+
+

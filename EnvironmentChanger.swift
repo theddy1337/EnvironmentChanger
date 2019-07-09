@@ -2,8 +2,8 @@
 //  EnvironmentChanger.swift
 //  Created by Teodor Marinov on 1.07.19.
 //
-
 import Foundation
+import UIKit
 
 private class EnvironmentChangerWindow: UIWindow {
     var button: UIButton?
@@ -50,12 +50,13 @@ class EnvironmentChangerController<T>: UIViewController where T: RawRepresentabl
     ///   - Saves the first environment passed in to avoid getSavedEnvironment() to return an empty string.
     public init(envs: T.Type, buttonImage: UIImage? = nil, buttonTitle: String? = nil, completionHandler: @escaping (T) -> Void) {
         super.init(nibName: nil, bundle: nil)
-        setupWindow()
-        saveFirstEnvironment()
+        self.envs = envs
         self.buttonImage = buttonImage
         self.buttonTitle = buttonTitle == nil ? "EN" : buttonTitle
         self.completionHandler = completionHandler
-        self.envs = envs
+        
+        setupWindow()
+        saveFirstEnvironment()
     }
     
     override func loadView() {
@@ -80,7 +81,7 @@ class EnvironmentChangerController<T>: UIViewController where T: RawRepresentabl
     ///     to avoid having inaccurate button image and size.
     func resizeFrame(newWidth: CGFloat, newHeight: CGFloat) {
         let imageEdgeInsets = (newWidth + newHeight) / 2
-        
+
         button.frame.width = newWidth
         button.frame.height = newHeight
         button.imageEdgeInsets = UIEdgeInsets(top: imageEdgeInsets, left: imageEdgeInsets, bottom: imageEdgeInsets, right: imageEdgeInsets)
@@ -179,6 +180,46 @@ class EnvironmentChangerController<T>: UIViewController where T: RawRepresentabl
             DispatchQueue.main.async {
                 UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true)
             }
+        }
+    }
+}
+
+extension UIView {
+    var cornerRadius: CGFloat {
+        get {
+            return layer.cornerRadius
+        }
+        set {
+            layer.cornerRadius = newValue
+            layer.masksToBounds = newValue > 0
+        }
+    }
+    
+    var borderWidth: CGFloat {
+        get {
+            return layer.borderWidth
+        }
+        set {
+            layer.borderWidth = newValue
+        }
+    }
+}
+
+extension CGRect {
+    var width: CGFloat {
+        get {
+            return self.size.width
+        }
+        set {
+            self = CGRect(x: self.minX, y: self.width, width: newValue, height: self.height)
+        }
+    }
+    var height: CGFloat {
+        get {
+            return self.size.height
+        }
+        set {
+            self = CGRect(x: self.minX, y: self.minY, width: self.width, height: newValue)
         }
     }
 }

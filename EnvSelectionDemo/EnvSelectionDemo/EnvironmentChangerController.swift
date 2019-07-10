@@ -55,7 +55,7 @@ class EnvironmentChangerController<T>: UIViewController where T: EnvironmentRepr
     private(set) var button: UIButton!
     private var buttonConfiguration: ButtonConfiguration!
     
-    /// Initiate with the object of environments you would like to access.
+    /// Instantiate with the object of environments you would like to access.
     ///
     /// - Parameters:
     ///   - envs: 'T' of type String, CaseIterable object that should preferably have environments inside.
@@ -99,8 +99,8 @@ class EnvironmentChangerController<T>: UIViewController where T: EnvironmentRepr
     func resizeFrame(newWidth: CGFloat, newHeight: CGFloat) {
         let imageEdgeInsets = (newWidth + newHeight) / 2
         
-        button.frame.width = newWidth
-        button.frame.height = newHeight
+        button.frame.size.width = newWidth
+        button.frame.size.height = newHeight
         button.imageEdgeInsets = UIEdgeInsets(top: imageEdgeInsets, left: imageEdgeInsets, bottom: imageEdgeInsets, right: imageEdgeInsets)
     }
     
@@ -132,21 +132,20 @@ class EnvironmentChangerController<T>: UIViewController where T: EnvironmentRepr
             switch buttonConfiguration {
             case .title(let title):
                 button.setTitle(title, for: .normal)
-                button.cornerRadius = 4
-                button.borderWidth = 1
+                button.layer.cornerRadius = 4
+                button.layer.borderWidth = 1
                 button.setTitleColor(.white, for: .normal)
                 button.backgroundColor = .gray
                 return
             case .image(let image):
                 button.setImage(image, for: .normal)
                 button.imageEdgeInsets = UIEdgeInsets(top: 30, left: 30, bottom: 30, right: 30)
-                button.contentMode = .center
                 button.imageView?.contentMode = .scaleAspectFit
             }
         }
         
         button.sizeToFit()
-        /// Starting point of the button is always in the top right corner.
+        /// Starting point of the button is always in the top left corner.
         button.frame = CGRect(origin: CGPoint(x: view.frame.minX + 20, y: view.frame.minY + 20), size: button.bounds.size)
         view.addSubview(button)
         self.view = view
@@ -210,46 +209,6 @@ class EnvironmentChangerController<T>: UIViewController where T: EnvironmentRepr
             DispatchQueue.main.async {
                 UIApplication.shared.keyWindow?.rootViewController?.present(alert, animated: true)
             }
-        }
-    }
-}
-
-extension UIView {
-    var cornerRadius: CGFloat {
-        get {
-            return layer.cornerRadius
-        }
-        set {
-            layer.cornerRadius = newValue
-            layer.masksToBounds = newValue > 0
-        }
-    }
-    
-    var borderWidth: CGFloat {
-        get {
-            return layer.borderWidth
-        }
-        set {
-            layer.borderWidth = newValue
-        }
-    }
-}
-
-extension CGRect {
-    var width: CGFloat {
-        get {
-            return self.size.width
-        }
-        set {
-            self = CGRect(x: self.minX, y: self.width, width: newValue, height: self.height)
-        }
-    }
-    var height: CGFloat {
-        get {
-            return self.size.height
-        }
-        set {
-            self = CGRect(x: self.minX, y: self.minY, width: self.width, height: newValue)
         }
     }
 }

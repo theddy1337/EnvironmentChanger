@@ -51,8 +51,7 @@ var ACTIVE_ENVIRONMENT = NonStringEnvs.production.environmentTitle
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
-    
-    
+
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
         let envChanger = EnvironmentChangerController(envs: Envs.self, buttonConfiguration: .image(UIImage(named: "AppIcon")!)) { selectedEnvironment in

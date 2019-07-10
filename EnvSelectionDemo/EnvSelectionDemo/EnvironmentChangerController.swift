@@ -24,6 +24,16 @@ private class EnvironmentChangerWindow: UIWindow {
     }
 }
 
+/// Enum cases for configuration of the layout of the floating button.
+enum ButtonConfiguration {
+    
+    /// Configure the button layout with title.
+    case title(String)
+    
+    /// Configure the button layout with image.
+    case image(UIImage)
+}
+
 class EnvironmentChangerController<T>: UIViewController where T: RawRepresentable, T.RawValue == String, T: CaseIterable {
     class EnvAlertAction: UIAlertAction {
         var selectedEnv: T?
@@ -35,24 +45,23 @@ class EnvironmentChangerController<T>: UIViewController where T: RawRepresentabl
     private let ACTIVE_ENV_KEY = "CURRENT_SAVED_ENVIRONMENT"
     private let window = EnvironmentChangerWindow()
     private(set) var button: UIButton!
-    private var buttonTitle: String?
-    private var buttonImage: UIImage?
+    private var buttonConfiguration: ButtonConfiguration!
     
     /// Initiate with the object of environments you would like to access.
     ///
     /// - Parameters:
     ///   - envs: 'T' of type String, CaseIterable object that should preferably have environments inside.
-    ///   - Optional buttonTitle: Sets the title of the button that will be displayed.
-    ///   - Optional buttonImage: Sets the image of the button that will be displayed.
+    ///   - buttonConfiguration: Sets the button title or image that will be displayed.
     ///   - completionHandler: Add any logic you would want to execute after you selected your new environment in the completionHandler.
     /// - Note:
-    ///   - If no buttonImage or buttonTitle is passed in the constructor by default it will set the title to 'EN'.
+    ///   - If no buttonConfiguration in the constructor by default it will set the title to 'EN'.
     ///   - Saves the first environment passed in to avoid getSavedEnvironment() to return an empty string.
-    public init(envs: T.Type, buttonImage: UIImage? = nil, buttonTitle: String? = nil, completionHandler: @escaping (T) -> Void) {
+    public init(envs: T.Type,
+                buttonConfiguration: ButtonConfiguration = .title("EN"),
+                completionHandler: @escaping (T) -> Void) {
         super.init(nibName: nil, bundle: nil)
         self.envs = envs
-        self.buttonImage = buttonImage
-        self.buttonTitle = buttonTitle == nil ? "EN" : buttonTitle
+        self.buttonConfiguration = buttonConfiguration
         self.completionHandler = completionHandler
         
         setupWindow()
@@ -111,18 +120,20 @@ class EnvironmentChangerController<T>: UIViewController where T: RawRepresentabl
         let button = UIButton(type: .custom)
         
         DispatchQueue.main.async { [weak self] in
-            
-            if let buttonImage = self?.buttonImage {
-                button.setImage(buttonImage, for: .normal)
-                button.imageEdgeInsets = UIEdgeInsets(top: 30, left: 30, bottom: 30, right: 30)
-                button.contentMode = .center
-                button.imageView?.contentMode = .scaleAspectFit
-            } else if let buttonTitle = self?.buttonTitle {
-                button.setTitle(buttonTitle, for: .normal)
+            guard let buttonConfiguration = self?.buttonConfiguration else { return }
+            switch buttonConfiguration {
+            case .title(let title):
+                button.setTitle(title, for: .normal)
                 button.cornerRadius = 4
                 button.borderWidth = 1
                 button.setTitleColor(.white, for: .normal)
                 button.backgroundColor = .gray
+                return
+            case .image(let image):
+                button.setImage(image, for: .normal)
+                button.imageEdgeInsets = UIEdgeInsets(top: 30, left: 30, bottom: 30, right: 30)
+                button.contentMode = .center
+                button.imageView?.contentMode = .scaleAspectFit
             }
         }
         

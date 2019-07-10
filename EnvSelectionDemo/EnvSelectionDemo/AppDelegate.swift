@@ -26,7 +26,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         
-        let envChanger = EnvironmentChangerController(envs: Envs.self, buttonImage: UIImage(named: "AppIcon")) { selectedEnvironment in
+        let envChanger = EnvironmentChangerController(envs: Envs.self, buttonConfiguration: .image(UIImage(named: "AppIcon")!)) { selectedEnvironment in
             ACTIVE_ENVIRONMENT = selectedEnvironment.rawValue
             print(ACTIVE_ENVIRONMENT)
         }

@@ -193,7 +193,18 @@ class EnvironmentChangerController<T>: UIViewController where T: EnvironmentRepr
         }
         
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
-        
+
+        /// Configured popover controller for iPad alerts.
+        /// Note: Cancel buttons are removed from popovers automatically,
+        /// because tapping outside the popover represents "cancel", in a popover context.
+        if let popoverController = alert.popoverPresentationController,
+            let currentView = UIApplication.shared.keyWindow?.rootViewController?.view {
+            popoverController.sourceView = currentView
+            popoverController.sourceRect = CGRect(x: currentView.bounds.midX, y: currentView.bounds.midY, width: 0, height: 0)
+            /// To hide the arrow of any particular direction.
+            popoverController.permittedArrowDirections = []
+        }
+
         /// Prevents from attempting to present the same alert when clicking on the ENV change button.
         if UIApplication.shared.keyWindow?.rootViewController?.presentedViewController == nil {
             DispatchQueue.main.async {

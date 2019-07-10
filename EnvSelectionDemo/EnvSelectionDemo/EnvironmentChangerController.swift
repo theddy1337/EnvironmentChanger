@@ -2,7 +2,6 @@
 //  EnvironmentChanger.swift
 //  Created by Teodor Marinov on 1.07.19.
 //
-import Foundation
 import UIKit
 
 private class EnvironmentChangerWindow: UIWindow {
@@ -34,7 +33,16 @@ enum ButtonConfiguration {
     case image(UIImage)
 }
 
-class EnvironmentChangerController<T>: UIViewController where T: RawRepresentable, T.RawValue == String, T: CaseIterable {
+/// Protocol defining the needed behaviour of the `Envs` enum.
+/// Each enum case should provide `String` representing the environment title.
+public protocol EnvironmentRepresentable {
+    
+    /// This string is later on used for persisting the selected enviornment.
+    /// `String` representing the environment title.
+    var environmentTitle: String { get }
+}
+
+class EnvironmentChangerController<T>: UIViewController where T: EnvironmentRepresentable, T: CaseIterable {
     class EnvAlertAction: UIAlertAction {
         var selectedEnv: T?
     }
@@ -90,7 +98,7 @@ class EnvironmentChangerController<T>: UIViewController where T: RawRepresentabl
     ///     to avoid having inaccurate button image and size.
     func resizeFrame(newWidth: CGFloat, newHeight: CGFloat) {
         let imageEdgeInsets = (newWidth + newHeight) / 2
-
+        
         button.frame.width = newWidth
         button.frame.height = newHeight
         button.imageEdgeInsets = UIEdgeInsets(top: imageEdgeInsets, left: imageEdgeInsets, bottom: imageEdgeInsets, right: imageEdgeInsets)
@@ -99,10 +107,10 @@ class EnvironmentChangerController<T>: UIViewController where T: RawRepresentabl
     /// When initializing the controller with the given environments,
     /// saves the first found environment from the list to UserDefaults.
     private func saveFirstEnvironment() {
-        guard let firstEnvironment = envs.allCases.first?.rawValue else { return }
+        guard let firstEnvironment = envs.allCases.first else { return }
         
         if getSavedEnvironment() == "" {
-            UserDefaults.standard.set(firstEnvironment, forKey: ACTIVE_ENV_KEY)
+            UserDefaults.standard.set(firstEnvironment.environmentTitle, forKey: ACTIVE_ENV_KEY)
         }
     }
     
@@ -157,9 +165,9 @@ class EnvironmentChangerController<T>: UIViewController where T: RawRepresentabl
     private func actionHandler(sender: UIAlertAction) {
         guard let envAlertAction = sender as? EnvAlertAction,
             let selectedEnv = envAlertAction.selectedEnv else { return }
-        UserDefaults.standard.set(selectedEnv.rawValue, forKey: ACTIVE_ENV_KEY)
+        UserDefaults.standard.set(selectedEnv.environmentTitle, forKey: ACTIVE_ENV_KEY)
         
-        let alert = UIAlertController(title: "Environment changed successfully.", message: "Please restart the app to access \(selectedEnv.rawValue)", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Environment changed successfully.", message: "Please restart the app to access \(selectedEnv.environmentTitle)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         
         completionHandler(selectedEnv)
@@ -179,7 +187,7 @@ class EnvironmentChangerController<T>: UIViewController where T: RawRepresentabl
         let alert = UIAlertController(title: "Current env: \(getSavedEnvironment())", message: "Please select a backend environment", preferredStyle: .actionSheet)
         
         envs.allCases.forEach {
-            let alertAction = EnvAlertAction(title: $0.rawValue, style: .default, handler: actionHandler(sender:))
+            let alertAction = EnvAlertAction(title: $0.environmentTitle, style: .default, handler: actionHandler(sender:))
             alertAction.selectedEnv = $0
             alert.addAction(alertAction)
         }
